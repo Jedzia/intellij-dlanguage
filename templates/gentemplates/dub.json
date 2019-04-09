@@ -1,0 +1,9 @@
+{
+	"authors": [
+		"Jedzia"
+	],
+	"copyright": "Copyright © 2019, Jedzia",
+	"description": "Generate Idea Template XML Definition from snippets",
+	"license": "MIT",
+	"name": "gentemplates"
+}

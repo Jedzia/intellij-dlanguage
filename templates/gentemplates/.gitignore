@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/gentemplates
+gentemplates.so
+gentemplates.dylib
+gentemplates.dll
+gentemplates.a
+gentemplates.lib
+gentemplates-test-*
+*.exe
+*.o
+*.obj
+*.lst
