@@ -1,8 +1,10 @@
-module bla;
+module snippet;
 
 import std.stdio;
+import std.string;
+import std.xml;
 
-public class bla {
+public class Snippet {
 
     this() {
     }
@@ -10,6 +12,17 @@ public class bla {
     ~this() {
     }
 
+    void doThings() {
+        auto doc = new Document(new Tag("catalog"));
+        auto element = new Element("book");
+        element.tag.attr["id"] = "123";
+        element ~= new Element("author", "Jedzia");
+
+        doc ~= element;
+
+        writefln(join(doc.pretty(3), "\n"));
+
+    }
     /*override size_t toHash() {
         // todo
     }*/
@@ -25,10 +38,9 @@ public unittest {
     writeln(" unittesting.. bla.d");
 }
 
-
 unittest {
     // generate and reparse, compare
-    //bla b;
+    //snippet b;
     //assertThrown(average([1], [1, 2]));
     assert(42 == 42, "Shurely, 42 is not 43!");
     //assert(true);

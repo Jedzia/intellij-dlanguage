@@ -2,11 +2,9 @@ import std.algorithm;
 import std.file;
 import std.getopt;
 import std.stdio;
-import std.string;
-import std.xml;
 import std.exception;
 
-//import bla;
+import snippet;
 
 string data = "file.dat";
 int length = 24;
@@ -19,6 +17,7 @@ enum Color {
 
 Color color;
 
+// source/app
 void main(string[] args) {
     //bla b;
     writeln("Edit source/app.d to start your project.");
@@ -52,13 +51,6 @@ void main(string[] args) {
     writeln();
     writeln();
 
-    auto doc = new Document(new Tag("catalog"));
-    auto element = new Element("book");
-    element.tag.attr["id"] = "123";
-    element ~= new Element("author", "Jedzia");
-
-    doc ~= element;
-
-    writefln(join(doc.pretty(3), "\n"));
-
+    auto b = new Snippet;
+    b.doThings();
 }
