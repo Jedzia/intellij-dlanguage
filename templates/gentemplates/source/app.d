@@ -43,14 +43,17 @@ void main(string[] args) {
         foreach (langDir; directories) {
             writeln("snippet dir:", langDir);
             auto files = dirEntries(langDir, "*.snippet", SpanMode.breadth);
-            foreach (file; files)
-                writeln(file, " files found..");
+            writeln();
+            writeln();
+            foreach (file; files.filter!(a => a.isFile).map!(a => a.name)) {
+                writeln();
+                writeln("File '", file, "' found..");
+
+                auto b = new Snippet(file);
+                b.renderXML();
+            }
+            writeln();
+            writeln();
         }
     }
-
-    writeln();
-    writeln();
-
-    auto b = new Snippet;
-    b.doThings();
 }
