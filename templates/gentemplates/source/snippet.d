@@ -1,4 +1,9 @@
-module snippet;
+//          Copyright Jedzia 2019. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module gentemplates.snippet;
 
 import std.stdio;
 import std.string;
@@ -29,10 +34,11 @@ public class Snippet {
     }
 
     void renderXML() {
+        //notes fix newlines -> &#10;
         auto doc = new Document(new Tag("templateSet"));
         auto element = new Element("template");
         element.tag.attr["name"] = _name;
-        element.tag.attr["value"] = "The Template in full glory";
+        element.tag.attr["value"] = "The Template <in> full glory.\r\nWith a (new)\n \"line\".";
         element.tag.attr["description"] = "I am the law.";
         element.tag.attr["toReformat"] = "false";
         element.tag.attr["toShortenFQNames"] = "true";

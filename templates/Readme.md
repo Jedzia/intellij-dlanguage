@@ -1,6 +1,7 @@
 ### Initialization of a new template set via list
 
-    Todo: dub run -- init
+    Todo: dub run -- --init-templates <directory>
+    Initialize a new working set. In directory the .root file specifies your setup 
     hmmm, no to confusing with dub init 
 
 ### Build IntelliJ XML template definitions from snippets located in the directory "_snippets_"
