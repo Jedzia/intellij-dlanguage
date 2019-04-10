@@ -19,17 +19,6 @@ enum Color {
 
 Color color;
 
-/*string ordinal(size_t number) {
-    return ""; // ← intentionally wrong
-}
-
-unittest {
-    assert(ordinal(1) == "1st");
-    assert(ordinal(2) == "2nd");
-    assert(ordinal(3) == "3rd");
-    assert(ordinal(10) == "10th");
-}*/
-
 void main(string[] args) {
     //bla b;
     writeln("Edit source/app.d to start your project.");
@@ -72,12 +61,4 @@ void main(string[] args) {
 
     writefln(join(doc.pretty(3), "\n"));
 
-}
-
-unittest {
-    // generate and reparse, compare
-    //bla b;
-    //assertThrown(average([1], [1, 2]));
-    assert(42 == 42, "Shurely, 42 is not 43!");
-    //assert(true);
 }
