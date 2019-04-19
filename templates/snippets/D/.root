@@ -2,7 +2,8 @@
 ###############################################################################
 al			basic		.		"alias"
 
-testX		basic		.
+# remove this after testing
+testX		basic
 
 as			basic		.		"assert"
 avar		basic		.		"auto variable"

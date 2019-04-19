@@ -22,6 +22,14 @@ class SkeletonBuildException : Exception {
     }
 }
 
+struct TemplateInfo {
+    char[] name;
+    char[] templateName;
+    char[] group;
+    char[] description;
+    char[][] extra;
+}
+
 class SkeletonBuilder {
     private string _directory;
     this(string directory) {
@@ -61,11 +69,12 @@ class SkeletonBuilder {
                 .array;
             writeln("   args: ", args);
             auto argsLength = args.length;
-            if (argsLength < 3) {
+            if (argsLength < 2) {
                 auto msg = format("Error in '%s'(%d):\r\n\r\n" ~ "%s\r\n\r\n"
                         ~ "A template definition looks like:\r\n Name Template Group \"Description\"\r\n"
-                        ~ "main basic . \"Application Entry Point Function\""
-                        ~ "\r\n\r\nThis definition contains only %d arguments instead of at least 3",
+                        ~ "main basic . \"Application Entry Point Function\"\r\n"
+                        ~ "where the Group and Description fields are optional."
+                        ~ "\r\n\r\nThis definition contains only %d arguments instead of at least 2",
                         path, lineNo, strippedLine, argsLength);
                 throw new SkeletonBuildException(msg);
             }
@@ -74,26 +83,37 @@ class SkeletonBuilder {
                 throw new SkeletonBuildException("name is empty");
             }
             //string name = to!string(args[0]);
-            auto name = args[0];
+            char[] name = args[0];
+            writeln("       name: ", name);
 
             if (args[1] == "") {
-                writeln("   THROW !!! template name is empty");
+                throw new SkeletonBuildException("template name is empty");
             }
-            auto templateName = args[1];
+            char[] templateName = args[1];
+            writeln("       templateName: ", templateName);
+
+            char[] group = r".".dup;
+            if (argsLength > 2) {
+                group = args[2];
+            }
+            writeln("       group: ", group);
 
             //auto quoted = line.splitter('"').filter!(not!empty).array;
             //auto quoted = line.splitter('"').filter!(not!empty).map!(x => x.splitter(","));
             auto quoted = line.splitter('"').filter!(s => s != "\r" && s != "").array;
-            writeln("   quoted: ", quoted);
+            //writeln("   quoted: ", quoted);
             //writeln("       take: ", quoted.retro().takeOne());
             //auto fuckyou = quoted.array.back;
             //writeln("       take: ", fuckyou);
-            auto description = "no_description";
-            if (quoted.length > 0) {
+            char[] description = "no_description".dup;
+            if (quoted.length > 1) {
                 description = quoted.back;
             }
+            description = description ~ format(" (%s)", name);
             writeln("       description: ", description);
 
+            auto t = new TemplateInfo(name, templateName, group, description);
+            writeln("           TemplateInfo: ", t);
             //auto filtered = args.filter!(not!empty);
 
         }
