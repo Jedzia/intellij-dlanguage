@@ -68,7 +68,8 @@ void main(string[] args) {
 
         auto initDir = pArgs[0];
         writeln("[initTemplates] with '", initDir, "'.");
-        auto builder = new SkeletonBuilder(initDir);
+        auto stp = new TemplateStencilProvider(initDir);
+        auto builder = new SkeletonBuilder(initDir, stp);
         builder.run(verbose);
     }
     else if (pArgs.length != 2) {

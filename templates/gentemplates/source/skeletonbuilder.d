@@ -14,6 +14,8 @@ import std.functional;
 import std.range;
 import std.array;
 import std.conv;
+import gentemplates.api;
+
 
 /// SkeletonBuild Exception.
 class SkeletonBuildException : Exception {
@@ -32,8 +34,10 @@ struct TemplateInfo {
 
 class SkeletonBuilder {
     private string _directory;
-    this(string directory) {
+    private StencilProvider _stp;
+    this(string directory, StencilProvider stp) {
         this._directory = directory;
+        this._stp = stp;
     }
 
     ~this() {
@@ -115,6 +119,25 @@ class SkeletonBuilder {
             auto t = new TemplateInfo(name, templateName, group, description);
             writeln("           TemplateInfo: ", t);
             //auto filtered = args.filter!(not!empty);
+            //name = name ~ "*";
+            auto fname = setExtension(name, ".snippet");
+            auto valid = isValidFilename(fname);
+            if (!valid) {
+                auto msg = format("'%s' is not a valid filename!", fname);
+                throw new SkeletonBuildException(msg);
+            }
+
+            //name = name ~ "*";
+            auto skPath = buildNormalizedPath(_directory, fname);
+            valid = isValidPath(skPath);
+            writeln("               valid: ", valid, " skPath:", skPath);
+            if (!valid) {
+                auto msg = format("'%s' is not a valid filesystem path!", skPath);
+                throw new SkeletonBuildException(msg);
+            }
+
+            auto stencil = _stp.getStencil(templateName.idup);
+            writeln("                   template: ", stencil);
 
         }
 
