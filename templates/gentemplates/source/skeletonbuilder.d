@@ -14,7 +14,7 @@ import std.functional;
 import std.range;
 import std.array;
 import std.conv;
-import gentemplates.api;
+import gentemplates;
 
 
 /// SkeletonBuild Exception.
@@ -22,14 +22,6 @@ class SkeletonBuildException : Exception {
     this(string msg, string file = __FILE__, int line = __LINE__) @safe pure nothrow {
         super(msg, file, line);
     }
-}
-
-struct TemplateInfo {
-    char[] name;
-    char[] templateName;
-    char[] group;
-    char[] description;
-    char[][] extra;
 }
 
 class SkeletonBuilder {
@@ -113,11 +105,11 @@ class SkeletonBuilder {
             if (quoted.length > 1) {
                 description = quoted.back;
             }
-            description = description ~ format(" (%s)", name);
+            //description = description ~ format(" (%s)", name);
             writeln("       description: ", description);
 
-            auto t = new TemplateInfo(name, templateName, group, description);
-            writeln("           TemplateInfo: ", t);
+            auto ti = new TemplateInfo(name, templateName, group, description);
+            writeln("           TemplateInfo: ", ti);
             //auto filtered = args.filter!(not!empty);
             //name = name ~ "*";
             auto fname = setExtension(name, ".snippet");
@@ -130,14 +122,17 @@ class SkeletonBuilder {
             //name = name ~ "*";
             auto skPath = buildNormalizedPath(_directory, fname);
             valid = isValidPath(skPath);
-            writeln("               valid: ", valid, " skPath:", skPath);
+            //writeln("               valid: ", valid, " skPath:", skPath);
             if (!valid) {
                 auto msg = format("'%s' is not a valid filesystem path!", skPath);
                 throw new SkeletonBuildException(msg);
             }
 
-            auto stencil = _stp.getStencil(templateName.idup);
-            writeln("                   template: ", stencil);
+            auto stencilData = _stp.getStencil(templateName.idup);
+            auto stencil = new FileStencil(stencilData);
+            stencil.transform(ti);
+            stencil.save(skPath);
+            //writeln("                   template: ", stencilData);
 
         }
 

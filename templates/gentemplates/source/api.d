@@ -10,4 +10,16 @@ interface StencilProvider {
     string getStencil(string name);
 }
 
+struct TemplateInfo {
+    char[] name;
+    char[] templateName;
+    char[] group;
+    char[] description;
+    char[][] extra;
+}
+
+interface Stencil {
+    void transform(const TemplateInfo* ti);
+    void save(string path);
+}
 

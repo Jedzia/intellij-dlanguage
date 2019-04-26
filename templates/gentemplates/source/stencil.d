@@ -8,6 +8,7 @@ module gentemplates.stencil;
 import std.stdio;
 import std.file;
 import std.path;
+import std.regex;
 import gentemplates.api;
 
 class TemplateStencilProvider : StencilProvider {
@@ -20,12 +21,45 @@ class TemplateStencilProvider : StencilProvider {
 
     }
 
-    string getStencil(string name)
-    {
+    string getStencil(string name) {
         auto fname = setExtension(name, ".template");
         auto path = buildNormalizedPath(_directory, fname);
         writeln("[TSP] path: ", path);
         return readText(path);
+    }
+
+}
+
+class FileStencil : Stencil {
+    private string _content;
+    this(string content) {
+        this._content = content;
+    }
+
+    ~this() {
+
+    }
+
+    private string _template = q"EOS
+void main(string[] args)
+{
+    $$SELECTION$$$$END$$
+}
+EOS";
+
+    void transform(const TemplateInfo* ti) {
+        writeln("[Stencil-_template] content: ", _template);
+        writeln("[Stencil-Trans] content: ", _content);
+
+        _content = replaceAll(_content, regex(r"(\$1\$)", "g"), ti.name);
+        _content = replaceAll(_content, regex(r"(\$4\$)", "g"), ti.description);
+
+        _content = replaceAll(_content, regex(r"(\$TEMPLATE\$)", "g"), _template);
+    }
+
+    void save(string path) {
+        writeln("[Stencil-Save] path: ", path);
+        writeln("[Stencil-Save] content: ", _content);
     }
 
 }

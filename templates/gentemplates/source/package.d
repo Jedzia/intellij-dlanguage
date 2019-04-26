@@ -5,6 +5,7 @@
 
 module gentemplates;
 
+public import gentemplates.api;
 public import gentemplates.skeletonbuilder;
 public import gentemplates.stencil;
 public import gentemplates.snippet;
