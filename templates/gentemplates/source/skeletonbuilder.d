@@ -16,7 +16,6 @@ import std.array;
 import std.conv;
 import gentemplates;
 
-
 /// SkeletonBuild Exception.
 class SkeletonBuildException : Exception {
     this(string msg, string file = __FILE__, int line = __LINE__) @safe pure nothrow {
@@ -25,6 +24,7 @@ class SkeletonBuildException : Exception {
 }
 
 class SkeletonBuilder {
+    private bool _debug = false;
     private string _directory;
     private StencilProvider _stp;
     this(string directory, StencilProvider stp) {
@@ -52,7 +52,8 @@ class SkeletonBuilder {
             auto strippedLine = line.strip();
             if (empty(strippedLine) || strippedLine.startsWith("#"))
                 continue;
-            writeln("Line: ", line);
+            if (_debug)
+                writeln("Line: ", line);
             import std.uni : isWhite;
 
             //auto args = line.split!isWhite;
@@ -63,7 +64,8 @@ class SkeletonBuilder {
             auto args = line.splitter!isWhite
                 .filter!(not!empty)
                 .array;
-            writeln("   args: ", args);
+            if (_debug)
+                writeln("   args: ", args);
             auto argsLength = args.length;
             if (argsLength < 2) {
                 auto msg = format("Error in '%s'(%d):\r\n\r\n" ~ "%s\r\n\r\n"
@@ -80,19 +82,22 @@ class SkeletonBuilder {
             }
             //string name = to!string(args[0]);
             char[] name = args[0];
-            writeln("       name: ", name);
+            if (_debug)
+                writeln("       name: ", name);
 
             if (args[1] == "") {
                 throw new SkeletonBuildException("template name is empty");
             }
             char[] templateName = args[1];
-            writeln("       templateName: ", templateName);
+            if (_debug)
+                writeln("       templateName: ", templateName);
 
             char[] group = r".".dup;
             if (argsLength > 2) {
                 group = args[2];
             }
-            writeln("       group: ", group);
+            if (_debug)
+                writeln("       group: ", group);
 
             //auto quoted = line.splitter('"').filter!(not!empty).array;
             //auto quoted = line.splitter('"').filter!(not!empty).map!(x => x.splitter(","));
@@ -106,10 +111,12 @@ class SkeletonBuilder {
                 description = quoted.back;
             }
             //description = description ~ format(" (%s)", name);
-            writeln("       description: ", description);
+            if (_debug)
+                writeln("       description: ", description);
 
             auto ti = new TemplateInfo(name, templateName, group, description);
-            writeln("           TemplateInfo: ", ti);
+            if (_debug)
+                writeln("           TemplateInfo: ", ti);
             //auto filtered = args.filter!(not!empty);
             //name = name ~ "*";
             auto fname = setExtension(name, ".snippet");

@@ -9,6 +9,7 @@ import std.stdio;
 import std.file;
 import std.path;
 import std.regex;
+import std.string;
 import gentemplates.api;
 
 class TemplateStencilProvider : StencilProvider {
@@ -48,8 +49,9 @@ void main(string[] args)
 EOS";
 
     void transform(const TemplateInfo* ti) {
-        writeln("[Stencil-_template] content: ", _template);
-        writeln("[Stencil-Trans] content: ", _content);
+        //writeln("[Stencil-_template] content: ", _template);
+        //writeln("[Stencil-Trans] content: ", _content);
+        writeln(format("[Stencil:%s] transforming content", ti.name));
 
         _content = replaceAll(_content, regex(r"(\$1\$)", "g"), ti.name);
         _content = replaceAll(_content, regex(r"(\$4\$)", "g"), ti.description);
@@ -58,8 +60,10 @@ EOS";
     }
 
     void save(string path) {
-        writeln("[Stencil-Save] path: ", path);
-        writeln("[Stencil-Save] content: ", _content);
+        //writeln("[Stencil-Save] path: ", path);
+        //writeln("[Stencil-Save] content: ", _content);
+        writeln(format("[Stencil] writing to %s", path));
+        std.file.write(path, _content);
     }
 
 }
