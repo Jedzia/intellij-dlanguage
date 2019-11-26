@@ -13,3 +13,7 @@ gentemplates-test-*
 *.o
 *.obj
 *.lst
+
+debugVS/Debug
+*.tss
+.vs
