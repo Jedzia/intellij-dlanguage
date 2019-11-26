@@ -1,6 +1,8 @@
 package io.github.intellij.dlanguage.template
 
 import com.intellij.codeInsight.CodeInsightUtil.findExpressionInRange
+import com.intellij.codeInsight.CodeInsightUtilBase
+import com.intellij.codeInsight.CodeInsightUtilCore
 import com.intellij.featureStatistics.FeatureUsageTracker
 import com.intellij.lang.surroundWith.SurroundDescriptor
 import com.intellij.lang.surroundWith.Surrounder
@@ -24,7 +26,7 @@ class DlangExpressionSurroundDescriptor : SurroundDescriptor {
 
     companion object {
         private val SURROUNDERS = arrayOf(
-            BlaSurrounder()
+            ExampleSurrounder()
             /*DlangWithParenthesesSurrounder(),
             DlangWithNotSurrounder(),
             DlangWithIfExpSurrounder(),
@@ -34,7 +36,7 @@ class DlangExpressionSurroundDescriptor : SurroundDescriptor {
 }
 
 // a placeholder for later to enable language specific template expansion.
-class BlaSurrounder : Surrounder
+class ExampleSurrounder : Surrounder
 {
     override fun getTemplateDescription(): String {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -47,5 +49,4 @@ class BlaSurrounder : Surrounder
     override fun isApplicable(elements: Array<out PsiElement>): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
 }
