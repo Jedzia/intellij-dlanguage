@@ -14,6 +14,7 @@ import std.functional;
 import std.range;
 import std.array;
 import std.conv;
+import std.xml;
 import gentemplates;
 
 /// SkeletonBuild Exception.
@@ -46,6 +47,18 @@ class ReverseSkeletonBuilder {
             .map!(a => a.length)
             .sum();
         writeln("Build info '", path, "' has ", wordCount, " words.");
+
+        string s = cast(string) std.file.read(path);
+
+        // Check for well-formedness
+        check(s);
+
+        // Make a DOM tree
+        auto doc = new Document(s);
+
+        // Plain-print it
+        writeln(doc);
+
 
         //int lineNo = 0;
         //foreach (line; lines) {

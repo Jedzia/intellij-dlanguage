@@ -15,5 +15,7 @@ gentemplates-test-*
 *.lst
 
 debugVS/Debug
+debugVS/**/*.log
+debugVS/**/*.lastbuildstate
 *.tss
 .vs
