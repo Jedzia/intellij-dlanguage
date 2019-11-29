@@ -44,21 +44,41 @@ class ReverseSkeletonBuilder {
         auto file = File( path); // Open for reading
         auto lines = file.byLine();
         const wordCount = lines.map!split
-            .map!(a => a.length)
-            .sum();
-        writeln("Build info '", path, "' has ", wordCount, " words.");
+        .map!(a => a.length)
+        .sum();
+        writeln( "Build info '", path, "' has ", wordCount, " words.");
 
-        string s = cast(string) std.file.read(path);
+        string s = cast(string) std.file.read( path);
 
         // Check for well-formedness
-        check(s);
+        check( s);
 
         // Make a DOM tree
-        auto doc = new Document(s);
+        auto doc = new Document( s);
 
         // Plain-print it
-        writeln(doc);
+        //writeln(doc);
+        writeln( "Document Tag =",doc.tag);
 
+        foreach (item; doc.items)
+        {
+            //if (!items[i].opEquals(element.items[i])) return false;
+            //writeln(item.name);
+        }
+
+        int i = 0;
+        foreach (element; doc.elements)
+        {
+            i++;
+            //if (!items[i].opEquals(element.items[i])) return false;
+            writeln(i, ": ", typeid(element), " ", element.tag.name);
+            //writeln(   "     ", element.items["description"]);
+            //writeln( "    ", element);
+        }
+
+
+
+        //s.
 
         //int lineNo = 0;
         //foreach (line; lines) {
